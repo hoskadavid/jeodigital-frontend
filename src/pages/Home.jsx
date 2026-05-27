@@ -589,7 +589,7 @@ const TeamCarousel = () => {
     { id: 1, name: "Chief Justice Ekwueme O.", position: "CEO/Director", location: "Aba Branch", phone: "+234 7061066372", whatsapp: "2347061066372", email: "ceo@jeodigital.com", linkedin: "https://linkedin.com/in/chief-johnson-eze", image: teamImg1 },
     { id: 2, name: "Effiong, Hoska", position: "Full Stack Software Engineer", location: "Abuja - FCT", phone: "+234 80064633233", whatsapp: "2348123645507", email: "hoskadavid@gmail.com", linkedin: "https://linkedin.com/in/hoska-effiong", image: teamImg2 },
     { id: 3, name: "Clement Abigail", position: "Secretary/Analyst", location: "Aba Branch", phone: "+234 8167660539", whatsapp: "2348167660539", email: "abigail.clement@jeodigital.com", linkedin: "https://linkedin.com/in/michael-adeleke", image: teamImg3 },
-    { id: 4, name: "Ms. Grace Okonkwo", position: "UX/UI Specialist", location: "Port Harcourt Branch", phone: "+234 805 456 7890", whatsapp: "2348054567890", email: "grace.okonkwo@jeodigital.com", linkedin: "https://linkedin.com/in/grace-okonkwo", image: teamImg4 },
+    { id: 4, name: "Mr Obasi Ukaegbu", position: "Mathematics/Physics Teacher", location: "Aba Branch", phone: "+234 8033890857", whatsapp: "2348033890857", email: "ukaegbu.obasi@jeodigital.com", linkedin: "https://linkedin.com/in/grace-okonkwo", image: teamImg4 },
     { id: 5, name: "Mr. David Nwachukwu", position: "Data Analyst", location: "Abuja - Head Quarter", phone: "+234 806 567 8901", whatsapp: "2348065678901", email: "david.nwachukwu@jeodigital.com", linkedin: "https://linkedin.com/in/david-nwachukwu", image: teamImg5 },
     { id: 6, name: "Dr. Mrs. Ifeoma Eze", position: "Chemistry Teacher", location: "Aba Branch", phone: "+234 807 678 9012", whatsapp: "2348076789012", email: "ifeoma.eze@jeodigital.com", linkedin: "https://linkedin.com/in/ifeoma-eze", image: teamImg6 },
     { id: 7, name: "Mr. Sunday Ogunleye", position: "Maths Teacher", location: "Uyo Branch", phone: "+234 808 789 0123", whatsapp: "2348087890123", email: "sunday.ogunleye@jeodigital.com", linkedin: "https://linkedin.com/in/sunday-ogunleye", image: teamImg7 },
@@ -899,7 +899,7 @@ const Home = () => {
   
   const servicesData = {
     newServices: [
-      { id: 1, title: 'WAEC | NECO | JAMB  | GCE', image: examinationRegImg, highlight: true, features: ['Fast Processing', 'Accurate', 'Timely', 'Affordable Rates'], showRegister: false },
+      { id: 1, title: 'WAEC | NECO | JAMB  | GCE', image: examinationRegImg, highlight: true, features: ['Fast Processing', 'Accurate', 'Timely', 'Affordable Rates'], showRegister: true },
       { id: 2, title: 'JAMB "RUNS" | PROCESSING', image: jambRunsImg, highlight: true, features: ['SCORE 300+ in one sitting', 'Reliable Results', 'Expert Guidance', '24/7 Support'], showRegister: true },
       { id: 3, title: 'JAMB | WAEC INTENSIVE LESSONS & COACHING', image: lessonCoachingImg, highlight: true, features: ['Private Lessons', 'JAMB CBT Prep', 'Exam Prep', 'Project/Thesis Coaching'], showRegister: true },
       { id: 4, title: 'UNIPORT | AFE BABALOLA | ABSU | UNICAL ADMISSION PROCESSING', image: admissionProcessingImg, highlight: true, features: ['Post UTME', 'Supplementary', 'Direct Admission', 'Other Services'], showRegister: false },
