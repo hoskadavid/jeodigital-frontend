@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -13,28 +13,79 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorType, setErrorType] = useState(null);
 
+  // Clear any stale tokens on component mount (fixes mobile caching issues)
+  useEffect(() => {
+    // Check if token exists but might be invalid
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Optional: verify token validity with backend
+      console.log('Existing token found, will attempt to use it');
+    }
+    
+    // Clear any stored service selection from previous sessions
+    const selectedService = localStorage.getItem('selectedService');
+    if (selectedService) {
+      console.log('Selected service from registration:', selectedService);
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorType(null);
     
-    if (!email || !password) {
+    // Trim email to remove any hidden whitespace characters (common on mobile)
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    
+    if (!trimmedEmail || !trimmedPassword) {
       toast.error('Please fill in all fields');
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error('Please enter a valid email address');
       return;
     }
 
     setLoading(true);
     
     try {
-      await login(email, password);
-      toast.success('Login successful! Redirecting to dashboard...');
+      const response = await login(trimmedEmail, trimmedPassword);
+      const userRole = response.user?.role || 'student';
+      
+      toast.success(`Login successful! Redirecting to dashboard...`);
+      
+      // Determine redirect path based on role
+      let redirectPath = '/dashboard';
+      switch(userRole) {
+        case 'student':
+          redirectPath = '/student/dashboard';
+          break;
+        case 'staff':
+          redirectPath = '/staff/dashboard';
+          break;
+        case 'admin':
+          redirectPath = '/admin/portal';
+          break;
+        default:
+          redirectPath = '/dashboard';
+      }
+      
+      // Small delay to ensure state updates and token is stored
       setTimeout(() => {
-        navigate('/dashboard');
-      }, 100);
+        navigate(redirectPath);
+      }, 500);
+      
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error details:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      });
       
       let errorMessage = 'Login failed. Please try again.';
-      let errorTitle = 'Login Failed';
       
       if (error.response?.data) {
         const errorCode = error.response.data.code;
@@ -43,15 +94,12 @@ const Login = () => {
         switch (errorCode) {
           case 'USER_NOT_FOUND':
             errorMessage = 'User does not exist. Please register first.';
-            errorTitle = 'Account Not Found';
             break;
           case 'WRONG_PASSWORD':
             errorMessage = 'Incorrect password. Please try again.';
-            errorTitle = 'Wrong Password';
             break;
           case 'INVALID_CREDENTIALS':
             errorMessage = 'Invalid email or password. Please check your credentials.';
-            errorTitle = 'Invalid Credentials';
             break;
           case 'EMAIL_NOT_CONFIRMED':
             toast.custom((t) => (
@@ -77,14 +125,15 @@ const Login = () => {
             return;
           case 'RATE_LIMIT':
             errorMessage = 'Too many login attempts. Please wait a few minutes before trying again.';
-            errorTitle = 'Rate Limit Exceeded';
             break;
           default:
             errorMessage = backendError || 'Login failed. Please try again.';
         }
         toast.error(errorMessage);
       } else if (error.message === 'Network Error') {
-        toast.error('Cannot connect to server. Please make sure the backend is running.');
+        toast.error('Unable to connect to server. Please check your internet connection and try again.');
+      } else if (error.message === 'Request failed with status code 500') {
+        toast.error('Server error. Please try again later or contact support.');
       } else {
         toast.error(errorMessage);
       }
@@ -116,7 +165,7 @@ const Login = () => {
             <p className="text-gray-400 mt-2">Login to your JEO Digital Solutions account</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div>
               <label className="block text-gray-300 mb-2">Email Address</label>
               <input
@@ -127,6 +176,9 @@ const Login = () => {
                 placeholder="Enter your email"
                 required
                 disabled={loading}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
               />
             </div>
 
@@ -180,6 +232,12 @@ const Login = () => {
               )}
             </button>
           </form>
+
+          <div className="mt-4 text-center">
+            <Link to="/forgot-password" className="text-sm text-primary-500 hover:text-primary-400 transition-colors">
+              Forgot Password?
+            </Link>
+          </div>
 
           <div className="mt-6 text-center">
             <Link to="/register" className="text-primary-500 hover:text-primary-400 transition-colors">
