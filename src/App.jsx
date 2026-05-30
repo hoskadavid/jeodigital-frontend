@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
-
+import IELTS from './pages/IELTS';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -36,6 +36,7 @@ function App() {
           <main className="flex-grow pt-28 md:pt-20">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/ielts" element={<IELTS />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
