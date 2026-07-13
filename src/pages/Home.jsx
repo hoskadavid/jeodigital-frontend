@@ -1398,7 +1398,7 @@ const Home = () => {
             </div>
             
             <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">JEO Digital</span><br />
+              <span className="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">JEO Digitally Made</span><br />
               <span className="text-white">Solutions</span>
             </h1>
             
