@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
-import IELTS from './pages/IELTS';
 import Footer from './components/Footer';
+import ProfessionalChatbot from './components/ProfessionalChatbot';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -15,6 +15,12 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import ResetPassword from './pages/ResetPassword';
+import IELTS from './pages/IELTS';
+
+// NEW: Legal Pages
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Cookies from './pages/Cookies';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,13 +33,19 @@ function ScrollToTop() {
 }
 
 function App() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleChatTrigger = () => {
+    setIsChatOpen(true);
+  };
+
   return (
     <Router>
       <AuthProvider>
         <ScrollToTop />
         <div className="flex flex-col min-h-screen">
           <Navbar />
-          <main className="flex-grow pt-28 md:pt-20">
+          <main className="flex-grow pt-16 md:pt-20">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/ielts" element={<IELTS />} />
@@ -46,9 +58,23 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              
+              {/* NEW: Legal Pages Routes */}
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/cookies" element={<Cookies />} />
+              <Route path="/ielts" element={<IELTS />} />
             </Routes>
           </main>
-          <Footer />
+          <Footer onChatTrigger={handleChatTrigger} />
+          
+          {/* Global Chatbot */}
+          <ProfessionalChatbot 
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            onOpen={() => setIsChatOpen(true)}
+          />
+          
           <Toaster 
             position="bottom-right"
             toastOptions={{
